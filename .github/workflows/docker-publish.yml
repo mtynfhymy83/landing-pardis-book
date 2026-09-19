@@ -94,9 +94,29 @@ jobs:
           }
           trap cleanup EXIT
 
-          curl --fail --show-error --silent --retry 10 --retry-connrefused --retry-delay 2 \
-            --output "$RUNNER_TEMP/healthz.txt" http://127.0.0.1:8080/healthz
-          grep -qx 'ok' "$RUNNER_TEMP/healthz.txt"
+          ready=false
+          for attempt in $(seq 1 20); do
+            if curl --fail --show-error --silent \
+              --connect-timeout 2 --max-time 3 \
+              --output "$RUNNER_TEMP/healthz.txt" http://127.0.0.1:8080/healthz; then
+              if grep -qx 'ok' "$RUNNER_TEMP/healthz.txt"; then
+                ready=true
+                break
+              fi
+            fi
+
+            if [ "$(docker inspect --format '{{.State.Running}}' landing-smoke 2>/dev/null || true)" != true ]; then
+              echo "::error title=Nginx stopped::The production container exited before it became ready."
+              exit 1
+            fi
+            echo "Waiting for Nginx ($attempt/20)..."
+            sleep 1
+          done
+
+          if [ "$ready" != true ]; then
+            echo "::error title=Nginx readiness timeout::The container did not return a valid /healthz response within 20 seconds."
+            exit 1
+          fi
 
           curl --fail --show-error --silent \
             --output "$RUNNER_TEMP/landing-index.html" http://127.0.0.1:8080/
