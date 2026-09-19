@@ -1,0 +1,10 @@
+@import '@fontsource-variable/vazirmatn';
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Vazirmatn Variable', sans-serif;
+  --color-navy: #103955;
+  --color-ink: #0c2648;
+  --color-teal: #008c95;
+  --color-muted: #718097;
+}
