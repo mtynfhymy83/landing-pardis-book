@@ -1,5 +1,7 @@
 # کتابسرای پردیس
 
+راهنمای انتشار ایمیج در Docker Hub و استقرار خودکار با Dokploy: [DEPLOYMENT.md](./DEPLOYMENT.md).
+
 فرانت فارسی و RTL با React، TypeScript، Vite و Tailwind CSS.
 
 ## اجرا
