@@ -17,7 +17,7 @@
 | نام | مقدار نمونه |
 | --- | --- |
 | `DOCKERHUB_USERNAME` | `yourusername` |
-| `DOCKERHUB_IMAGE` | `yourusername/pardis-landing` |
+| `DOCKERHUB_IMAGE` | اختیاری؛ مثل `yourusername/pardis-landing` |
 
 در Secrets:
 
@@ -25,7 +25,9 @@
 | --- | --- |
 | `DOCKERHUB_TOKEN` | توکن Docker Hub با دسترسی Read & Write |
 
-نام ایمیج lowercase، بدون `https://` و بدون tag باشد. اگر repository متعلق به سازمان است، IMAGE شامل نام سازمان می‌شود ولی USERNAME نام حساب صاحب توکن است.
+اگر repository ساخته‌شده در Docker Hub نامش `landing-page` است، مقدار کامل باید `yourusername/landing-page` باشد؛ مقدار تنها `landing-page` کافی نیست. اگر `DOCKERHUB_IMAGE` را نسازید، workflow به‌صورت خودکار از `DOCKERHUB_USERNAME/نام-مخزن-گیتهاب` استفاده می‌کند؛ برای این مخزن نتیجه معمولاً `yourusername/landing-pardis-book` است و فقط وقتی درست است که repository داکر هاب نیز همین نام را داشته باشد. نام ایمیج lowercase، بدون `https://` و بدون tag باشد. اگر repository متعلق به سازمان است، IMAGE شامل نام سازمان می‌شود ولی USERNAME نام حساب صاحب توکن است.
+
+`DOCKERHUB_USERNAME` را ترجیحاً در Variables بسازید؛ workflow برای رفع خطای رایج، آن را از Secrets هم قبول می‌کند. توکن باید حتماً در Secrets باشد. نام قدیمی `DOCKER_PASSWORD` نیز پشتیبانی می‌شود.
 
 فایل‌ها را commit و روی main به GitHub push کنید. workflow در Actions اجرا می‌شود؛ یا از Run workflow روی main استفاده کنید. ابتدا ایمیج با npm ci و npm run build ساخته می‌شود، سپس Nginx و پاسخ HTTP آن تست و همان ایمیج با دو tag منتشر می‌شود:
 

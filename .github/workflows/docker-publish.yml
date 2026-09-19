@@ -17,19 +17,50 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      # Both Repository Variables and Repository Secrets are accepted for these
+      # two non-sensitive values to prevent a common setup mistake.
+      DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME || secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_IMAGE_INPUT: ${{ vars.DOCKERHUB_IMAGE || secrets.DOCKERHUB_IMAGE }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Validate settings
+      - name: Prepare and validate Docker Hub settings
         env:
-          DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
-          DOCKERHUB_IMAGE: ${{ vars.DOCKERHUB_IMAGE }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN || secrets.DOCKER_PASSWORD }}
         run: |
-          test -n "$DOCKERHUB_USERNAME" || { echo 'Missing DOCKERHUB_USERNAME variable'; exit 1; }
-          test -n "$DOCKERHUB_IMAGE" || { echo 'Missing DOCKERHUB_IMAGE variable'; exit 1; }
-          test -n "$DOCKERHUB_TOKEN" || { echo 'Missing DOCKERHUB_TOKEN secret'; exit 1; }
+          if [ -z "$DOCKERHUB_USERNAME" ]; then
+            echo "::error title=Missing Docker Hub username::Add DOCKERHUB_USERNAME under Settings > Secrets and variables > Actions > Variables."
+            exit 1
+          fi
+          if [ -z "$DOCKERHUB_TOKEN" ]; then
+            echo "::error title=Missing Docker Hub token::Add DOCKERHUB_TOKEN under Settings > Secrets and variables > Actions > Secrets. Use a Docker Hub access token, not your account password."
+            exit 1
+          fi
+
+          if [ -n "$DOCKERHUB_IMAGE_INPUT" ]; then
+            image="$DOCKERHUB_IMAGE_INPUT"
+          else
+            repository_name="${GITHUB_REPOSITORY#*/}"
+            image="$DOCKERHUB_USERNAME/$repository_name"
+            echo "DOCKERHUB_IMAGE was not set; using $image"
+          fi
+
+          image="$(printf '%s' "$image" | tr '[:upper:]' '[:lower:]')"
+          case "$image" in
+            http://*|https://*|*:*|*/*/*|/*|*/)
+              echo "::error title=Invalid Docker Hub image::Use owner/repository without protocol or tag, for example mtynfhymy83/landing-pardis-book."
+              exit 1
+              ;;
+            */*) ;;
+            *)
+              echo "::error title=Incomplete Docker Hub image::DOCKERHUB_IMAGE must include the Docker Hub namespace, for example $DOCKERHUB_USERNAME/landing-page."
+              exit 1
+              ;;
+          esac
+          echo "DOCKERHUB_IMAGE=$image" >> "$GITHUB_ENV"
+          echo "Image to publish: $image:latest"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -58,15 +89,14 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v4
         with:
-          username: ${{ vars.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN || secrets.DOCKER_PASSWORD }}
 
       - name: Publish the tested image
         env:
-          IMAGE: ${{ vars.DOCKERHUB_IMAGE }}
           COMMIT_SHA: ${{ github.sha }}
         run: |
-          docker tag pardis-landing:ci "$IMAGE:sha-$COMMIT_SHA"
-          docker tag pardis-landing:ci "$IMAGE:latest"
-          docker push "$IMAGE:sha-$COMMIT_SHA"
-          docker push "$IMAGE:latest"
+          docker tag pardis-landing:ci "$DOCKERHUB_IMAGE:sha-$COMMIT_SHA"
+          docker tag pardis-landing:ci "$DOCKERHUB_IMAGE:latest"
+          docker push "$DOCKERHUB_IMAGE:sha-$COMMIT_SHA"
+          docker push "$DOCKERHUB_IMAGE:latest"
