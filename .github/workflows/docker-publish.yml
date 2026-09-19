@@ -80,11 +80,37 @@ jobs:
         run: |
           docker run --rm pardis-landing:ci nginx -t
           docker run -d --name landing-smoke -p 127.0.0.1:8080:80 pardis-landing:ci
-          trap 'docker logs landing-smoke; docker rm -f landing-smoke' EXIT
-          curl --fail --retry 10 --retry-connrefused --retry-delay 2 http://127.0.0.1:8080/healthz
-          curl --fail --silent http://127.0.0.1:8080/ | grep -q 'id="root"'
-          curl --fail --silent http://127.0.0.1:8080/favicon.svg | grep -q '<svg'
-          test "$(curl --silent --output /dev/null --write-out '%{http_code}' http://127.0.0.1:8080/assets/missing.js)" = 404
+          cleanup() {
+            status=$?
+            trap - EXIT
+            if [ "$status" -ne 0 ]; then
+              echo "::group::Nginx container diagnostics"
+              docker ps -a --filter name=landing-smoke || true
+              docker logs landing-smoke || true
+              echo "::endgroup::"
+            fi
+            docker rm -f landing-smoke >/dev/null 2>&1 || true
+            exit "$status"
+          }
+          trap cleanup EXIT
+
+          curl --fail --show-error --silent --retry 10 --retry-connrefused --retry-delay 2 \
+            --output "$RUNNER_TEMP/healthz.txt" http://127.0.0.1:8080/healthz
+          grep -qx 'ok' "$RUNNER_TEMP/healthz.txt"
+
+          curl --fail --show-error --silent \
+            --output "$RUNNER_TEMP/landing-index.html" http://127.0.0.1:8080/
+          grep -q 'id="root"' "$RUNNER_TEMP/landing-index.html"
+
+          curl --fail --show-error --silent \
+            --output "$RUNNER_TEMP/favicon.svg" http://127.0.0.1:8080/favicon.svg
+          grep -q '<svg' "$RUNNER_TEMP/favicon.svg"
+
+          missing_status="$(curl --silent --output /dev/null --write-out '%{http_code}' http://127.0.0.1:8080/assets/missing.js)"
+          if [ "$missing_status" != 404 ]; then
+            echo "::error title=Unexpected static asset response::Expected HTTP 404 for a missing asset, received $missing_status."
+            exit 1
+          fi
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v4
