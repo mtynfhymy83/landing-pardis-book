@@ -78,7 +78,7 @@ jobs:
 
       - name: Check Nginx and serve the production build
         run: |
-          docker run --rm pardis-landing:ci nginx -t
+          docker run --rm --entrypoint nginx pardis-landing:ci -t
           docker run -d --name landing-smoke -p 127.0.0.1:8080:80 pardis-landing:ci
           cleanup() {
             status=$?

@@ -13,4 +13,8 @@ COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD wget -q -O /dev/null http://127.0.0.1/healthz || exit 1
-CMD ["nginx", "-g", "daemon off;"]
+# The upstream Alpine entrypoint calls `apk manifest nginx`. On some Docker
+# Swarm hosts that command can block indefinitely, so this static image starts
+# Nginx directly; no entrypoint templating is needed for our fixed config.
+ENTRYPOINT ["nginx"]
+CMD ["-g", "daemon off;"]
