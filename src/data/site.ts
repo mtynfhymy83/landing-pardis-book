@@ -59,7 +59,7 @@ export type Book = {
 };
 
 export const books: Book[] = [
-  { id: 'top-notch', title: 'Top Notch', subtitle: 'English for Real Life', caption: 'Skills. Confidence. A brighter tomorrow.', cover: '/books/top-notch-1a.png', palette: 'from-[#224e73] to-[#092341] text-white', art: 'from-[#8bc6e0] via-[#3187ac] to-[#12314d]' },
-  { id: 'first-friends', title: 'First Friends', subtitle: 'English for Young Learners', caption: 'Play. Learn. Grow.', cover: '/books/first-friends-1.png', palette: 'from-[#009b91] to-[#006863] text-white', art: 'from-[#ffd971] via-[#efa249] to-[#2bb4a3]' },
-  { id: 'family-friends', title: 'Family and Friends', subtitle: 'Building Brighter Futures Together', caption: 'Learn. Practice. Belong.', cover: '/books/family-and-friends-1.png', palette: 'from-[#fffef9] to-[#e7e8e2] text-[#12334f]', art: 'from-[#8bd1cf] via-[#e8c776] to-[#167d89]' },
+  { id: 'top-notch', title: 'Top Notch', subtitle: 'English for Real Life', caption: 'Skills. Confidence. A brighter tomorrow.', cover: '/books/top-notch-1a.webp', palette: 'from-[#224e73] to-[#092341] text-white', art: 'from-[#8bc6e0] via-[#3187ac] to-[#12314d]' },
+  { id: 'first-friends', title: 'First Friends', subtitle: 'English for Young Learners', caption: 'Play. Learn. Grow.', cover: '/books/first-friends-1.webp', palette: 'from-[#009b91] to-[#006863] text-white', art: 'from-[#ffd971] via-[#efa249] to-[#2bb4a3]' },
+  { id: 'family-friends', title: 'Family and Friends', subtitle: 'Building Brighter Futures Together', caption: 'Learn. Practice. Belong.', cover: '/books/family-and-friends-1.webp', palette: 'from-[#fffef9] to-[#e7e8e2] text-[#12334f]', art: 'from-[#8bd1cf] via-[#e8c776] to-[#167d89]' },
 ];

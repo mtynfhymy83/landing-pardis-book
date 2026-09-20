@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
 
 const apiProducts = [
-  { id: 'book-1', title: 'Top Notch 1A', coverUrl: '/books/top-notch-1a.png', coverAlt: 'جلد Top Notch 1A', price: 490000, discountedPrice: 220000, discountPercent: 55, remainingPercent: 36 },
-  { id: 'book-2', title: 'First Friends 1', coverUrl: '/books/first-friends-1.png', coverAlt: 'جلد First Friends 1', price: 320000, discountedPrice: 176000, discountPercent: 45, remainingPercent: 42 },
-  { id: 'book-3', title: 'Family and Friends 1', coverUrl: '/books/family-and-friends-1.png', coverAlt: 'جلد Family and Friends 1', price: 385000, discountedPrice: 231000, discountPercent: 40, remainingPercent: 28 },
+  { id: 'book-1', title: 'Top Notch 1A', coverUrl: '/books/top-notch-1a.webp', coverAlt: 'جلد Top Notch 1A', price: 490000, discountedPrice: 220000, discountPercent: 55, remainingPercent: 36 },
+  { id: 'book-2', title: 'First Friends 1', coverUrl: '/books/first-friends-1.webp', coverAlt: 'جلد First Friends 1', price: 320000, discountedPrice: 176000, discountPercent: 45, remainingPercent: 42 },
+  { id: 'book-3', title: 'Family and Friends 1', coverUrl: '/books/family-and-friends-1.webp', coverAlt: 'جلد Family and Friends 1', price: 385000, discountedPrice: 231000, discountPercent: 40, remainingPercent: 28 },
 ];
 
 test.beforeEach(async ({ page }) => {
