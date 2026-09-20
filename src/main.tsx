@@ -11,6 +11,7 @@ import { Testimonials } from './components/Testimonials';
 import { FAQ } from './components/FAQ';
 import { CTABar } from './components/CTABar';
 import { Footer } from './components/Footer';
+import { ProductsPage } from './components/ProductsPage';
 import './styles.css';
 
 function App() {
@@ -23,4 +24,6 @@ function App() {
   </div>;
 }
 
-createRoot(document.getElementById('root')!).render(<StrictMode><App /></StrictMode>);
+const page = window.location.pathname.replace(/\/$/, '') === '/products' ? <ProductsPage /> : <App />;
+
+createRoot(document.getElementById('root')!).render(<StrictMode>{page}</StrictMode>);

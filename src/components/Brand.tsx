@@ -1,5 +1,5 @@
 export function Brand() {
-  return <a href="#home" aria-label="کتابسرای پردیس، ابتدای صفحه" className="flex shrink-0 items-center gap-2 rounded focus-visible:outline-2 focus-visible:outline-teal">
+  return <a href="/#home" aria-label="کتابسرای پردیس، ابتدای صفحه" className="flex shrink-0 items-center gap-2 rounded focus-visible:outline-2 focus-visible:outline-teal">
     <svg aria-hidden="true" viewBox="0 0 52 58" className="h-12 w-11 sm:h-14 sm:w-12" fill="none">
       <path d="M25 53C18 45 9 44 3 44V15C12 15 20 20 25 28V53Z" fill="#103955" />
       <path d="M28 53C35 45 43 44 49 44V15C40 15 33 20 28 28V53Z" fill="#103955" />

@@ -1,6 +1,6 @@
 export const contact: { phone: string | null; mobile: string | null; bale: string | null; eitaa: string | null } = {
-  phone: null,
-  mobile: null,
+  phone: '09100559253',
+  mobile: '09100559253',
   bale: null,
   eitaa: null,
 };
@@ -21,7 +21,7 @@ export const products = [
 export const advantages = [
   { icon: 'tag', title: 'قیمت پایین‌تر', description: 'تخفیف‌های ویژه و قیمت همکاری برای مراکز آموزشی' },
   { icon: 'receipt', title: 'فروش شرایطی با چک', description: 'امکان خرید با چک برای آموزشگاه‌های معتبر' },
-  { icon: 'package', title: 'موجودی عمده عناوین پرفروش', description: 'تأمین مستمر و تضمین موجودی سری‌های پرتقاضا' },
+  { icon: 'package', title: 'موجودی عمده عناوین پرفروش', description: 'تأمین مستمر عناوین پرفروش برای سفارش‌های عمده' },
   { icon: 'truck', title: 'پشتیبانی و ارسال سریع', description: 'ارسال به سراسر کشور با بسته‌بندی مطمئن' },
 ] as const;
 
@@ -59,7 +59,7 @@ export type Book = {
 };
 
 export const books: Book[] = [
-  { id: 'top-notch', title: 'Top Notch', subtitle: 'English for Real Life', caption: 'Skills. Confidence. A brighter tomorrow.', cover: null, palette: 'from-[#224e73] to-[#092341] text-white', art: 'from-[#8bc6e0] via-[#3187ac] to-[#12314d]' },
-  { id: 'first-friends', title: 'First Friends', subtitle: 'English for Young Learners', caption: 'Play. Learn. Grow.', cover: null, palette: 'from-[#009b91] to-[#006863] text-white', art: 'from-[#ffd971] via-[#efa249] to-[#2bb4a3]' },
-  { id: 'family-friends', title: 'Family and Friends', subtitle: 'Building Brighter Futures Together', caption: 'Learn. Practice. Belong.', cover: null, palette: 'from-[#fffef9] to-[#e7e8e2] text-[#12334f]', art: 'from-[#8bd1cf] via-[#e8c776] to-[#167d89]' },
+  { id: 'top-notch', title: 'Top Notch', subtitle: 'English for Real Life', caption: 'Skills. Confidence. A brighter tomorrow.', cover: '/books/top-notch-1a.png', palette: 'from-[#224e73] to-[#092341] text-white', art: 'from-[#8bc6e0] via-[#3187ac] to-[#12314d]' },
+  { id: 'first-friends', title: 'First Friends', subtitle: 'English for Young Learners', caption: 'Play. Learn. Grow.', cover: '/books/first-friends-1.png', palette: 'from-[#009b91] to-[#006863] text-white', art: 'from-[#ffd971] via-[#efa249] to-[#2bb4a3]' },
+  { id: 'family-friends', title: 'Family and Friends', subtitle: 'Building Brighter Futures Together', caption: 'Learn. Practice. Belong.', cover: '/books/family-and-friends-1.png', palette: 'from-[#fffef9] to-[#e7e8e2] text-[#12334f]', art: 'from-[#8bd1cf] via-[#e8c776] to-[#167d89]' },
 ];

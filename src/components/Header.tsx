@@ -18,7 +18,8 @@ export function Header() {
     return () => { window.removeEventListener('keydown', close); desktop.removeEventListener('change', reset); };
   }, [open]);
 
-  const links = navigation.map(item => <a key={item.href} href={item.available ? item.href : undefined} aria-disabled={!item.available} title={item.available ? undefined : 'در مرحله بعد اضافه می‌شود'} onClick={() => setOpen(false)} className={`rounded-md px-3 py-3 text-sm font-semibold text-ink focus-visible:outline-2 focus-visible:outline-teal ${item.available ? 'transition hover:bg-teal/5 hover:text-teal' : 'cursor-default'}`}>{item.label}</a>);
+  const onHomepage = window.location.pathname === '/';
+  const links = navigation.map(item => <a key={item.href} href={item.available ? (onHomepage ? item.href : `/${item.href}`) : undefined} aria-disabled={!item.available} title={item.available ? undefined : 'در مرحله بعد اضافه می‌شود'} onClick={() => setOpen(false)} className={`rounded-md px-3 py-3 text-sm font-semibold text-ink focus-visible:outline-2 focus-visible:outline-teal ${item.available ? 'transition hover:bg-teal/5 hover:text-teal' : 'cursor-default'}`}>{item.label}</a>);
   return <header className="relative z-20 border-b border-slate-100 bg-white/95">
     <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-2 px-4 py-4 sm:px-6 lg:px-8">
       <Brand />

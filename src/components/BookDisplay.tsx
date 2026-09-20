@@ -2,7 +2,7 @@ import { books, type Book } from '../data/site';
 
 export function BookCover({ book, index = 0, compact = false }: { book: Book; index?: number; compact?: boolean }) {
   return <div className={`relative shrink-0 ${compact ? 'w-full -rotate-3' : `w-[30%] ${index === 0 ? 'z-10 translate-y-3 -rotate-3' : index === 1 ? 'z-20 -rotate-2' : 'z-10 rotate-1'}`}`}>
-    {book.cover ? <img src={book.cover} alt={`جلد ${book.title}`} className="aspect-[0.59] w-full rounded-sm object-cover shadow-xl" /> : <div dir="ltr" role="img" aria-label={`جای‌نگهدار جلد ${book.title}`} className={`relative aspect-[0.59] overflow-hidden rounded-r-sm border-l-[5px] border-black/20 bg-gradient-to-br shadow-[8px_14px_22px_-10px_rgba(15,40,60,0.5)] ${book.palette}`}>
+    {book.cover ? <img src={book.cover} alt={`جلد ${book.title}`} className="h-auto w-full rounded-sm object-contain shadow-xl" /> : <div dir="ltr" role="img" aria-label={`جای‌نگهدار جلد ${book.title}`} className={`relative aspect-[0.59] overflow-hidden rounded-r-sm border-l-[5px] border-black/20 bg-gradient-to-br shadow-[8px_14px_22px_-10px_rgba(15,40,60,0.5)] ${book.palette}`}>
       <div className="absolute inset-y-0 left-1 w-px bg-white/25" />
       <div className={`relative z-10 ${compact ? 'px-2 pt-4' : 'px-3 pt-5 sm:px-4 sm:pt-7'}`}>
         <p className={`${compact ? 'text-[15px]' : 'text-[clamp(16px,3.4vw,30px)]'} max-w-28 leading-[1.02] font-extrabold tracking-tight`}>{book.title}</p>
