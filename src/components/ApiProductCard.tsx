@@ -19,7 +19,7 @@ export function ApiProductCard({ product }: { product: BestSellingProduct }) {
         <p className="mt-1.5 whitespace-nowrap text-2xl font-black tracking-tight"><bdi>{formatNumber(product.discountedPrice)}</bdi> <span className="text-sm font-bold">تومان</span></p>
         <span className="mt-1 inline-block rounded-md bg-[#fff0df] px-2 py-0.5 text-[11px] font-bold text-[#df652d]">قیمت عمده</span>
       </div>
-      <div className="flex aspect-[0.72] w-[95px] shrink-0 items-center justify-center overflow-hidden rounded-sm bg-gradient-to-br from-[#edf5f8] to-[#dce8ef] py-2 shadow-lg md:order-1 md:w-[104px] lg:order-2 lg:w-[94px] xl:w-[110px]">
+      <div className="flex aspect-[0.72] w-[95px] shrink-0 items-center justify-center overflow-hidden rounded-sm bg-gradient-to-br from-[#edf5f8] to-[#dce8ef] shadow-lg md:order-1 md:w-[104px] lg:order-2 lg:w-[94px] xl:w-[110px]">
         {product.coverUrl && !imageFailed
           ? <img src={product.coverUrl} alt={product.coverAlt ?? `جلد کتاب ${product.title}`} loading="lazy" onError={() => setImageFailed(true)} className="h-full w-full object-cover" />
           : <div role="img" aria-label={`تصویر جایگزین جلد ${product.title}`} className="flex flex-col items-center gap-2 px-2 text-center text-navy/55"><BookOpen size={38} strokeWidth={1.5} aria-hidden="true" /><span className="line-clamp-3 text-[9px] font-bold">{product.title}</span></div>}
