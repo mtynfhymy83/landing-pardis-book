@@ -1,8 +1,8 @@
 export const contact: { phone: string | null; mobile: string | null; bale: string | null; eitaa: string | null } = {
   phone: '09100559253',
   mobile: '09100559253',
-  bale: null,
-  eitaa: null,
+  bale: 'https://ble.ir/Mtynfhymy83',
+  eitaa: 'https://eitaa.com/Mtynfhymy',
 };
 
 export const navigation = [
